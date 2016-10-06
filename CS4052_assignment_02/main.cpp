@@ -115,7 +115,7 @@ GLuint CompileShaders()
 // VBO Functions - click on + to expand
 #pragma region VBO_FUNCTIONS
 GLuint generateObjectBuffer(GLfloat vertices[], GLfloat colors[]) {
-	GLuint numVertices = 4;
+	GLuint numVertices = 24;
 	// Genderate 1 generic buffer object, called VBO
 	GLuint VBO;
  	glGenBuffers(1, &VBO);
@@ -131,7 +131,7 @@ return VBO;
 }
 
 void linkCurrentBuffertoShader(GLuint shaderProgramID){
-	GLuint numVertices = 4;
+	GLuint numVertices = 24;
 	// find the location of the variables that we will be using in the shader program
 	GLuint positionID = glGetAttribLocation(shaderProgramID, "vPosition");
 	GLuint colorID = glGetAttribLocation(shaderProgramID, "vColor");
@@ -150,7 +150,7 @@ void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	// NB: Make the call to draw the geometry in the currently activated vertex buffer. This is where the GPU starts to work!
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 24);
     glutSwapBuffers();
 }
 
@@ -183,16 +183,64 @@ void init()
 			1.0f, 1.0f, -1.0f,
 			-1.0f, 1.0f, -1.0f };//Square 6
 	// Create a color array that identfies the colors of each vertex (format R, G, B, A)
-	GLfloat colors[] = {1.0f, 0.0f, 0.0f, 1.0f,
+	GLfloat colors[] = {1.0f, 0.0f, 0.0f, 1.0f,//Square 1
 			1.0f, 0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, 0.0f, 1.0f,//Square1
+			1.0f, 1.0f, 1.0f, 1.0f,//Square 2
+			1.0f, 1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f, 1.0f,//Square2
+			0.0f, 0.0f, 1.0f, 1.0f,//Square 3
+			0.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,//Square3
+			0.0f, 1.0f, 0.0f, 1.0f,//Square 4
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,//Square4
+			1.0f, 1.0f, 0.0f, 1.0f,//Square 5
 			1.0f, 1.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, 0.0f, 1.0f};
+			1.0f, 1.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, 0.0f, 1.0f,//Square5
+			1.0f, 0.5f, 0.0f, 1.0f,//Square 6
+			1.0f, 0.5f, 0.0f, 1.0f,
+			1.0f, 0.5f, 0.0f, 1.0f,
+			1.0f, 0.5f, 0.0f, 1.0f,};//Square 6
 	// Set up the shaders
 	GLuint shaderProgramID = CompileShaders();
 	// Put the vertices and colors into a vertex buffer object
 	generateObjectBuffer(vertices, colors);
 	// Link the current buffer to the shader
 	linkCurrentBuffertoShader(shaderProgramID);	
+}
+
+void processSpecialKeys(int key, int x, int y) {
+
+	switch (key) {
+		case GLUT_KEY_F1:
+			/*rotate x*/ break;
+		case GLUT_KEY_F2:
+			/*rotate y*/ break;
+		case GLUT_KEY_F3:
+			/*rotate z*/ break;
+		case GLUT_KEY_F4:
+			/*translate x*/ break;
+		case GLUT_KEY_F5:
+			/*translate y*/ break;
+		case GLUT_KEY_F6:
+			/*translate z*/ break;
+		case GLUT_KEY_F7:
+			/*uniform scaling*/ break;
+		case GLUT_KEY_F8:
+			/*non-uniform scaling*/ break;
+		case GLUT_KEY_F9:
+			/*Combined*/ break;
+		case GLUT_KEY_F10:
+			/*Multi*/ break;
+		case GLUT_KEY_F11:
+			exit(0);
+	}
 }
 
 int main(int argc, char** argv){
@@ -204,6 +252,8 @@ int main(int argc, char** argv){
     glutCreateWindow("Hello Square");
 	// Tell glut where the display function is
 	glutDisplayFunc(display);
+
+	glutSpecialFunc(processSpecialKeys);
 
 	 // A call to glewInit() must be done after glut is initialized!
     GLenum res = glewInit();
