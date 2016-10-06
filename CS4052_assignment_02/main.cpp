@@ -150,18 +150,38 @@ void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	// NB: Make the call to draw the geometry in the currently activated vertex buffer. This is where the GPU starts to work!
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     glutSwapBuffers();
 }
 
 
 void init()
 {
-	// Create 3 vertices that make up a triangle that fits on the viewport 
-	GLfloat vertices[] = {-1.0f, -1.0f, 0.0f,
-			1.0f, -1.0f, 0.0f,
-			1.0f, 1.0f, 0.0f,
-			-1.0f, 1.0f, 0.0f};
+	// Create 24 vertices that make up a cube that fits on the viewport 
+	GLfloat vertices[] = {-1.0f, -1.0f, 1.0f,//Square1
+			1.0f, -1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f,//Square 1
+			-1.0f, -1.0f, 1.0f,//Square 2
+			-1.0f, -1.0f, -1.0f,
+			-1.0f, 1.0f, -1.0f,
+			-1.0f, 1.0f, 1.0f ,//Square 2
+			-1.0f, 1.0f, -1.0f,//Square 3
+			1.0f, 1.0f, -1.0f,
+			1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f ,//Square 3
+			-1.0f, -1.0f, 1.0f,//Square 4
+			1.0f, -1.0f, 1.0f,
+			1.0f, -1.0f, -1.0f,
+			-1.0f, -1.0f, -1.0f ,//Square 4
+			1.0f, -1.0f, -1.0f,//Square 5
+			1.0f, -1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, -1.0f ,//Square 5
+			-1.0f, -1.0f, -1.0f,//Square 6
+			1.0f, -1.0f, -1.0f,
+			1.0f, 1.0f, -1.0f,
+			-1.0f, 1.0f, -1.0f };//Square 6
 	// Create a color array that identfies the colors of each vertex (format R, G, B, A)
 	GLfloat colors[] = {1.0f, 0.0f, 0.0f, 1.0f,
 			1.0f, 0.0f, 0.0f, 1.0f,
