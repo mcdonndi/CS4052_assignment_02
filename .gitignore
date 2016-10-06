@@ -1,4 +1,5 @@
-# Compiled Object files
+
+## Compiled Object files
 *.slo
 *.lo
 *.o
@@ -25,3 +26,5 @@
 *.exe
 *.out
 *.app
+# Project Files
+*.vcxproj
