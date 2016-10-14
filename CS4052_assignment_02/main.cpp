@@ -1,6 +1,8 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <iostream>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // Macro for indexing vertex buffer
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
@@ -18,11 +20,12 @@ static const char* pVS = "                                                    \n
 in vec3 vPosition;															  \n\
 in vec4 vColor;																  \n\
 out vec4 color;																 \n\
+uniform mat4 mat;														\n\
                                                                               \n\
                                                                                \n\
 void main()                                                                     \n\
 {                                                                                \n\
-    gl_Position = vec4(vPosition.x/2, vPosition.y/2, vPosition.z/2, 1.0);  \n\
+    gl_Position = mat * vec4(vPosition.x/2, vPosition.y/2, vPosition.z/2, 1.0);  \n\
 	color = vColor;							\n\
 }";
 
@@ -36,9 +39,18 @@ out vec4 FragColor;                                                      \n\
                                                                           \n\
 void main()                                                               \n\
 {                                                                          \n\
-FragColor = color;									 \n\
+	FragColor = color;									 \n\
 }";
 
+GLuint POS_ID = 0;
+float matrix[] = { 1, 0, 0, 0,
+0, 1, 0, 0,
+0, 0, 1, 0,
+0, 0, 0, 1 };
+glm::mat4 rotMat = glm::make_mat4(matrix);
+glm::mat4 transMat = glm::make_mat4(matrix);
+glm::mat4 scalMat = glm::make_mat4(matrix);
+glm::mat4 mat;
 
 // Shader Functions- click on + to expand
 #pragma region SHADER_FUNCTIONS
@@ -115,7 +127,7 @@ GLuint CompileShaders()
 // VBO Functions - click on + to expand
 #pragma region VBO_FUNCTIONS
 GLuint generateObjectBuffer(GLfloat vertices[], GLfloat colors[]) {
-	GLuint numVertices = 24;
+	GLuint numVertices = 4;
 	// Genderate 1 generic buffer object, called VBO
 	GLuint VBO;
  	glGenBuffers(1, &VBO);
@@ -131,10 +143,11 @@ return VBO;
 }
 
 void linkCurrentBuffertoShader(GLuint shaderProgramID){
-	GLuint numVertices = 24;
+	GLuint numVertices = 4;
 	// find the location of the variables that we will be using in the shader program
 	GLuint positionID = glGetAttribLocation(shaderProgramID, "vPosition");
 	GLuint colorID = glGetAttribLocation(shaderProgramID, "vColor");
+	POS_ID = glGetUniformLocation(shaderProgramID, "mat");
 	// Have to enable this
 	glEnableVertexAttribArray(positionID);
 	// Tell it where to find the position data in the currently active buffer (at index positionID)
@@ -149,8 +162,12 @@ void linkCurrentBuffertoShader(GLuint shaderProgramID){
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	mat = rotMat * transMat * scalMat;
+	glUniformMatrix4fv(POS_ID, 1, GL_TRUE, &mat[0][0]);
+
 	// NB: Make the call to draw the geometry in the currently activated vertex buffer. This is where the GPU starts to work!
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 24);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     glutSwapBuffers();
 }
 
@@ -162,7 +179,7 @@ void init()
 			1.0f, -1.0f, 1.0f,
 			1.0f, 1.0f, 1.0f,
 			-1.0f, 1.0f, 1.0f,//Square 1
-			-1.0f, -1.0f, 1.0f,//Square 2
+			/*-1.0f, -1.0f, 1.0f,//Square 2
 			-1.0f, -1.0f, -1.0f,
 			-1.0f, 1.0f, -1.0f,
 			-1.0f, 1.0f, 1.0f ,//Square 2
@@ -181,13 +198,13 @@ void init()
 			-1.0f, -1.0f, -1.0f,//Square 6
 			1.0f, -1.0f, -1.0f,
 			1.0f, 1.0f, -1.0f,
-			-1.0f, 1.0f, -1.0f };//Square 6
+			-1.0f, 1.0f, -1.0f*/ };//Square 6
 	// Create a color array that identfies the colors of each vertex (format R, G, B, A)
 	GLfloat colors[] = {1.0f, 0.0f, 0.0f, 1.0f,//Square 1
 			1.0f, 0.0f, 0.0f, 1.0f,
-			1.0f, 0.0f, 0.0f, 1.0f,
-			1.0f, 0.0f, 0.0f, 1.0f,//Square1
-			1.0f, 1.0f, 1.0f, 1.0f,//Square 2
+			1.0f, 1.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, 0.0f, 1.0f,//Square1
+			/*1.0f, 1.0f, 1.0f, 1.0f,//Square 2
 			1.0f, 1.0f, 1.0f, 1.0f,
 			1.0f, 1.0f, 1.0f, 1.0f,
 			1.0f, 1.0f, 1.0f, 1.0f,//Square2
@@ -206,7 +223,7 @@ void init()
 			1.0f, 0.5f, 0.0f, 1.0f,//Square 6
 			1.0f, 0.5f, 0.0f, 1.0f,
 			1.0f, 0.5f, 0.0f, 1.0f,
-			1.0f, 0.5f, 0.0f, 1.0f,};//Square 6
+			1.0f, 0.5f, 0.0f, 1.0f,*/};//Square 6
 	// Set up the shaders
 	GLuint shaderProgramID = CompileShaders();
 	// Put the vertices and colors into a vertex buffer object
@@ -219,11 +236,14 @@ void processSpecialKeys(int key, int x, int y) {
 
 	switch (key) {
 		case GLUT_KEY_F1:
-			/*rotate x*/ break;
+			/*rotate x*/ 
+			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(1, 0, 0)); break;
 		case GLUT_KEY_F2:
-			/*rotate y*/ break;
+			/*rotate y*/
+			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0, 1, 0)); break;
 		case GLUT_KEY_F3:
-			/*rotate z*/ break;
+			/*rotate z*/
+			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0, 0, 1)); break;
 		case GLUT_KEY_F4:
 			/*translate x*/ break;
 		case GLUT_KEY_F5:
@@ -241,6 +261,8 @@ void processSpecialKeys(int key, int x, int y) {
 		case GLUT_KEY_F11:
 			exit(0);
 	}
+
+	display();
 }
 
 int main(int argc, char** argv){
