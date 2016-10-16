@@ -236,24 +236,29 @@ void processSpecialKeys(int key, int x, int y) {
 
 	switch (key) {
 		case GLUT_KEY_F1:
-			/*rotate x*/ 
+			//rotate x
 			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(1, 0, 0)); break;
 		case GLUT_KEY_F2:
-			/*rotate y*/
+			//rotate y
 			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0, 1, 0)); break;
 		case GLUT_KEY_F3:
-			/*rotate z*/
+			//rotate z
 			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0, 0, 1)); break;
 		case GLUT_KEY_F4:
-			/*translate x*/ break;
+			//translate x
+			transMat = glm::translate(transMat, glm::vec3(1, 0, 0)); break;
 		case GLUT_KEY_F5:
-			/*translate y*/ break;
+			//translate y
+			transMat = glm::translate(transMat, glm::vec3(0, 1, 0)); break;
 		case GLUT_KEY_F6:
-			/*translate z*/ break;
+			//translate z
+			transMat = glm::translate(transMat, glm::vec3(0, 0, 1)); break;
 		case GLUT_KEY_F7:
-			/*uniform scaling*/ break;
+			//uniform scaling
+			scalMat = glm::scale(scalMat, glm::vec3(0.5f)); break;
 		case GLUT_KEY_F8:
-			/*non-uniform scaling*/ break;
+			//non-uniform scaling 
+			scalMat = glm::scale(scalMat, glm::vec3(0.5f, 1.25f, 0.75f)); break;
 		case GLUT_KEY_F9:
 			/*Combined*/ break;
 		case GLUT_KEY_F10:
