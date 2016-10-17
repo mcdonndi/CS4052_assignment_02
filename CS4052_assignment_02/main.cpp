@@ -51,6 +51,10 @@ glm::mat4 rotMat = glm::make_mat4(matrix);
 glm::mat4 transMat = glm::make_mat4(matrix);
 glm::mat4 scalMat = glm::make_mat4(matrix);
 glm::mat4 mat;
+glm::mat4 rotMat2 = glm::make_mat4(matrix);
+glm::mat4 transMat2 = glm::make_mat4(matrix);
+glm::mat4 scalMat2 = glm::make_mat4(matrix);
+glm::mat4 mat2;
 
 // Shader Functions- click on + to expand
 #pragma region SHADER_FUNCTIONS
@@ -127,7 +131,7 @@ GLuint CompileShaders()
 // VBO Functions - click on + to expand
 #pragma region VBO_FUNCTIONS
 GLuint generateObjectBuffer(GLfloat vertices[], GLfloat colors[]) {
-	GLuint numVertices = 4;
+	GLuint numVertices = 6;
 	// Genderate 1 generic buffer object, called VBO
 	GLuint VBO;
  	glGenBuffers(1, &VBO);
@@ -143,7 +147,7 @@ return VBO;
 }
 
 void linkCurrentBuffertoShader(GLuint shaderProgramID){
-	GLuint numVertices = 4;
+	GLuint numVertices = 6;
 	// find the location of the variables that we will be using in the shader program
 	GLuint positionID = glGetAttribLocation(shaderProgramID, "vPosition");
 	GLuint colorID = glGetAttribLocation(shaderProgramID, "vColor");
@@ -167,7 +171,13 @@ void display(){
 	glUniformMatrix4fv(POS_ID, 1, GL_TRUE, &mat[0][0]);
 
 	// NB: Make the call to draw the geometry in the currently activated vertex buffer. This is where the GPU starts to work!
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	mat2 = rotMat2 * transMat2 * scalMat2;
+	glUniformMatrix4fv(POS_ID, 1, GL_TRUE, &mat2[0][0]);
+
+	// NB: Make the call to draw the geometry in the currently activated vertex buffer. This is where the GPU starts to work!
+	glDrawArrays(GL_TRIANGLES, 3, 3);
     glutSwapBuffers();
 }
 
@@ -175,15 +185,19 @@ void display(){
 void init()
 {
 	// Create 24 vertices that make up a cube that fits on the viewport 
-	GLfloat vertices[] = {-1.0f, -1.0f, 1.0f,
-			1.0f, -1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f,
-			-1.0f, 1.0f, 1.0f};//Square 6
+	GLfloat vertices[] = {-1.0f, -1.0f, 0.0f, //triangle 1
+			0.0f, -1.0f, 0.0f,
+			-0.5f, 1.0f, 0.0f, //triangle 1
+			0.0f, -1.0f, 0.0f, //triangle 2
+			1.0f, -1.0f, 0.0f,
+			0.5f, 1.0f, 0.0f}; //triangle 2
 	// Create a color array that identfies the colors of each vertex (format R, G, B, A)
 	GLfloat colors[] = {1.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,
 			1.0f, 0.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, 0.0f, 1.0f };
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f };
 	// Set up the shaders
 	GLuint shaderProgramID = CompileShaders();
 	// Put the vertices and colors into a vertex buffer object
@@ -225,7 +239,13 @@ void processSpecialKeys(int key, int x, int y) {
 			transMat = glm::translate(transMat, glm::vec3(0, 1, 0));
 			scalMat = glm::scale(scalMat, glm::vec3(0.9f)); break;
 		case GLUT_KEY_F10:
-			/*Multi*/ break;
+			//Multi
+			rotMat = glm::rotate(rotMat, 0.1f, glm::vec3(1, 0, 0));
+			transMat = glm::translate(transMat, glm::vec3(1, 0, 0));
+			scalMat = glm::scale(scalMat, glm::vec3(1.2f));
+			rotMat2 = glm::rotate(rotMat2, 0.1f, glm::vec3(0, 0, 1));
+			transMat2 = glm::translate(transMat2, glm::vec3(0, 1, 0));
+			scalMat2 = glm::scale(scalMat2, glm::vec3(0.75f)); break;
 		case GLUT_KEY_F11:
 			exit(0);
 	}
@@ -239,7 +259,7 @@ int main(int argc, char** argv){
 	glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
     glutInitWindowSize(800, 800);
-    glutCreateWindow("Hello Square");
+	glutCreateWindow("Assignment #2");
 	// Tell glut where the display function is
 	glutDisplayFunc(display);
 
