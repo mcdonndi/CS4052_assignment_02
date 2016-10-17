@@ -211,22 +211,22 @@ void processSpecialKeys(int key, int x, int y) {
 	switch (key) {
 		case GLUT_KEY_F1:
 			//rotate x
-			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(1, 0, 0)); break;
+			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0.1f, 0.0f, 0.0f)); break;
 		case GLUT_KEY_F2:
 			//rotate y
-			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0, 1, 0)); break;
+			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0.0f, 0.1f, 0.0f)); break;
 		case GLUT_KEY_F3:
 			//rotate z
-			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0, 0, 1)); break;
+			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0.0f, 0.0f, 0.1f)); break;
 		case GLUT_KEY_F4:
 			//translate x
-			transMat = glm::translate(transMat, glm::vec3(1, 0, 0)); break;
+			transMat[0][3] = transMat[0][3] + 0.1f; break;
 		case GLUT_KEY_F5:
 			//translate y
-			transMat = glm::translate(transMat, glm::vec3(0, 1, 0)); break;
+			transMat[1][3] = transMat[1][3] + 0.1f; break;
 		case GLUT_KEY_F6:
 			//translate z
-			transMat = glm::translate(transMat, glm::vec3(0, 0, 1)); break;
+			transMat[2][3] = transMat[2][3] + 0.1f; break;
 		case GLUT_KEY_F7:
 			//uniform scaling
 			scalMat = glm::scale(scalMat, glm::vec3(0.5f)); break;
@@ -235,16 +235,16 @@ void processSpecialKeys(int key, int x, int y) {
 			scalMat = glm::scale(scalMat, glm::vec3(0.5f, 1.25f, 0.75f)); break;
 		case GLUT_KEY_F9:
 			//Combined
-			rotMat = glm::rotate(rotMat, 0.9f, glm::vec3(1, 0, 0));
-			transMat = glm::translate(transMat, glm::vec3(0, 1, 0));
+			rotMat = glm::rotate(rotMat, 0.9f, glm::vec3(0.0f, 0.0f, 0.1f));
+			transMat[1][3] = transMat[1][3] - 0.1f;
 			scalMat = glm::scale(scalMat, glm::vec3(0.9f)); break;
 		case GLUT_KEY_F10:
 			//Multi
-			rotMat = glm::rotate(rotMat, 0.1f, glm::vec3(1, 0, 0));
-			transMat = glm::translate(transMat, glm::vec3(1, 0, 0));
+			rotMat = glm::rotate(rotMat, 1.5f, glm::vec3(0.5f, 0.0f, 0.0f));
+			transMat[0][3] = transMat[0][3] - 0.1f;
 			scalMat = glm::scale(scalMat, glm::vec3(1.2f));
-			rotMat2 = glm::rotate(rotMat2, 0.1f, glm::vec3(0, 0, 1));
-			transMat2 = glm::translate(transMat2, glm::vec3(0, 1, 0));
+			rotMat2 = glm::rotate(rotMat2, 1.5f, glm::vec3(0.0f, 0.0f, 1.5f));
+			transMat2[1][3] = transMat2[1][3] + 0.1f;
 			scalMat2 = glm::scale(scalMat2, glm::vec3(0.75f)); break;
 		case GLUT_KEY_F11:
 			exit(0);

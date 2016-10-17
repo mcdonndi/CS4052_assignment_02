@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
-Release|Win32|\\134.226.32.3\Ugrad\mcdonndi\My Documents\CS4052\CS4052_assignment_02\|
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+Release|Win32|C:\Users\Diarmuid\Documents\Visual Studio 2013\Projects\CS4052\CS4052_assignment_02\|
