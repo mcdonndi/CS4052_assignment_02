@@ -127,7 +127,7 @@ GLuint CompileShaders()
 // VBO Functions - click on + to expand
 #pragma region VBO_FUNCTIONS
 GLuint generateObjectBuffer(GLfloat vertices[], GLfloat colors[]) {
-	GLuint numVertices = 24;
+	GLuint numVertices = 4;
 	// Genderate 1 generic buffer object, called VBO
 	GLuint VBO;
  	glGenBuffers(1, &VBO);
@@ -143,7 +143,7 @@ return VBO;
 }
 
 void linkCurrentBuffertoShader(GLuint shaderProgramID){
-	GLuint numVertices = 24;
+	GLuint numVertices = 4;
 	// find the location of the variables that we will be using in the shader program
 	GLuint positionID = glGetAttribLocation(shaderProgramID, "vPosition");
 	GLuint colorID = glGetAttribLocation(shaderProgramID, "vColor");
@@ -167,7 +167,7 @@ void display(){
 	glUniformMatrix4fv(POS_ID, 1, GL_TRUE, &mat[0][0]);
 
 	// NB: Make the call to draw the geometry in the currently activated vertex buffer. This is where the GPU starts to work!
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 24);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     glutSwapBuffers();
 }
 
