@@ -211,13 +211,13 @@ void processSpecialKeys(int key, int x, int y) {
 	switch (key) {
 		case GLUT_KEY_F1:
 			//rotate x
-			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0.1f, 0.0f, 0.0f)); break;
+			rotMat = glm::rotate(rotMat, 1.0f, glm::vec3(0.1f, 0.0f, 0.0f)); break;
 		case GLUT_KEY_F2:
 			//rotate y
-			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0.0f, 0.1f, 0.0f)); break;
+			rotMat = glm::rotate(rotMat, 1.0f, glm::vec3(0.0f, 0.1f, 0.0f)); break;
 		case GLUT_KEY_F3:
 			//rotate z
-			rotMat = glm::rotate(rotMat, 0.25f, glm::vec3(0.0f, 0.0f, 0.1f)); break;
+			rotMat = glm::rotate(rotMat, 1.0f, glm::vec3(0.0f, 0.0f, 0.1f)); break;
 		case GLUT_KEY_F4:
 			//translate x
 			transMat[0][3] = transMat[0][3] + 0.1f; break;
@@ -235,12 +235,12 @@ void processSpecialKeys(int key, int x, int y) {
 			scalMat = glm::scale(scalMat, glm::vec3(0.5f, 1.25f, 0.75f)); break;
 		case GLUT_KEY_F9:
 			//Combined
-			rotMat = glm::rotate(rotMat, 0.9f, glm::vec3(0.0f, 0.0f, 0.1f));
+			rotMat = glm::rotate(rotMat, 1.5f, glm::vec3(0.0f, 0.0f, 0.1f));
 			transMat[1][3] = transMat[1][3] - 0.1f;
 			scalMat = glm::scale(scalMat, glm::vec3(0.9f)); break;
 		case GLUT_KEY_F10:
 			//Multi
-			rotMat = glm::rotate(rotMat, 1.5f, glm::vec3(0.5f, 0.0f, 0.0f));
+			rotMat = glm::rotate(rotMat, 2.5f, glm::vec3(0.5f, 0.0f, 0.0f));
 			transMat[0][3] = transMat[0][3] - 0.1f;
 			scalMat = glm::scale(scalMat, glm::vec3(1.2f));
 			rotMat2 = glm::rotate(rotMat2, 1.5f, glm::vec3(0.0f, 0.0f, 1.5f));

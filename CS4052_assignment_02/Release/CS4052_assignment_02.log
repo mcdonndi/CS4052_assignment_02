@@ -1,4 +1,4 @@
-﻿Build started 17/10/2016 23:37:03.
+﻿Build started 18/10/2016 11:03:03.
      1>Project "C:\Users\Diarmuid\Documents\Visual Studio 2013\Projects\CS4052\CS4052_assignment_02\CS4052_assignment_02\CS4052_assignment_02.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I.\freeglut\include /I".\glew-1.10.0\include" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
@@ -12,4 +12,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.66
+Time Elapsed 00:00:01.94
